@@ -1,0 +1,3 @@
+namespace auton {
+    void redLeft();
+}
