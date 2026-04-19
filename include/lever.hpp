@@ -32,5 +32,7 @@ namespace lever{
 
     void setLimit(double lim);
 
+    void setManual(bool targ);
+
 }
 

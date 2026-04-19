@@ -50,3 +50,6 @@ pros::Distance localXSens(14);
 pros::Distance localYSens(15);
 
 pros::adi::DigitalOut lowScorePiston('F');
+
+pros::MotorGroup leftMtrs({-5, 4, -13});
+pros::MotorGroup rightMtrs({9, 8, -17});

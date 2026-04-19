@@ -13,19 +13,21 @@ namespace lever{
 
     bool hoodState = false;
 
-    double downAng = 127.5;
+    double downAng = 149;
 
     double targ = downAng;
 
-    double limit = 325;
+    double limit = 337;
 
     double pos;
     
-    double kP = 550;
+    double kP = 500;
 
     bool isScoringSlow = false;
 
     int intkSaveState = 0;
+
+    bool manual = false;
 
     void daemon(){
 
@@ -71,13 +73,13 @@ namespace lever{
             } else {
                 if(!elevatorState){
                     if(leverEncoder.get_angle() / 100.0 < limit){
-                        leverMtr.move_voltage(5000);
+                        leverMtr.move_voltage(7000);
                     } else {
                         leverMtr.move_voltage(0);
                     }
                 } else {
                     if(leverEncoder.get_angle() / 100.0 < limit){
-                        leverMtr.move_voltage(6000);
+                        leverMtr.move_voltage(9500);
                     } else {
                         leverMtr.move_voltage(0);
                     }
@@ -86,7 +88,13 @@ namespace lever{
                
 
                 
+                
+                    hoodState = true;
+                
+                
+            }
 
+            if(manual){
                 hoodState = true;
             }
                 
@@ -165,6 +173,10 @@ namespace lever{
 
     void setLimit(double lim){
         limit = lim;
+    }
+
+    void setManual(bool targ){
+        manual = targ;
     }
 
 }

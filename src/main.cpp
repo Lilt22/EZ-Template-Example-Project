@@ -1,4 +1,8 @@
 #include "main.h"
+#include "EZ-Template/util.hpp"
+#include "autons.hpp"
+#include "pros/motor_group.hpp"
+#include "pros/motors.hpp"
 #include "subsystems.hpp"
 #include "api.h"
 #include "main.h"
@@ -17,15 +21,20 @@
 // https://ez-robotics.github.io/EZ-Template/
 /////
 
+std::vector<int> leftMotors = {-5, 4, -13};
+std::vector<int> rightMotors = {9, 8, -17};
+
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-5, 4, 13},     // Left Chassis Ports (negative port will reverse it!)
+    {-5, 4, -13},     // Left Chassis Ports (negative port will reverse it!)
     {9, 8, -17},  // Right Chassis Ports (negative port will reverse it!)
 
     12,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+
+ez::tracking_wheel vert_tracker(-18, 2, 0); 
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -42,17 +51,19 @@ ez::Drive chassis(
  * to keep execution time for this mode under a few seconds.
  */
 
-static pros::Task leverTask(lever::daemon);
+pros::Task leverTask(lever::daemon);
 
-static pros::Task loaderTask(matchLoad::daemon);
+pros::Task loaderTask1(matchLoad::daemon);
 
-static pros::Task intakeTask(intake::daemon);
+pros::Task intakeTask(intake::daemon);
 
-static pros::Task wingTask(wing::daemon);
+pros::Task wingTask(wing::daemon);
 
-static pros::Task lowScore(lowScore::daemon);
+pros::Task lowScore1(lowScore::daemon);
 
-static pros::Task trackingPiston(trackingDeploy::daemon);
+pros::Task trackingPiston(trackingDeploy::daemon);
+
+
  
 void initialize() {
 
@@ -61,7 +72,7 @@ void initialize() {
 
 
   // Print our branding over your terminal :D
-  ez::ez_template_print();
+  //ez::ez_template_print();
 
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
@@ -75,9 +86,11 @@ void initialize() {
   // chassis.odom_tracker_left_set(&vert_tracker);
 
   // Configure your chassis controls
-  chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
+  chassis.opcontrol_curve_buttons_toggle(false);   // Enables modifying the controller curve with buttons on the joysticks
   chassis.opcontrol_drive_activebrake_set(0.0);   // Sets the active brake kP. We recommend ~2.  0 will disable.
   chassis.opcontrol_curve_default_set(0.0, 0.0);  // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
+
+ chassis.odom_tracker_left_set(&vert_tracker);
 
   pros::lcd::initialize();
 
@@ -97,22 +110,9 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add({
-      {"Drive\n\nDrive forward and come back", drive_example},
-      {"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
-      {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-      {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
-      {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
-      {"Combine all 3 movements", combining_movements},
-      {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
-      {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
-      {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
-      {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-      {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
-  });
+  ez::as::auton_selector.autons_add({{"Solo AWP", soloAWP},{"LeftSplitLONG", leftSplitLONG}, {"LefSpliMIDt", leftSplitMID},
+      
+    });
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -280,10 +280,16 @@ void ez_template_extras() {
  * If the robot is disabled or communications is lost, the
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
+
+
  */
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+
+  trackingDeploy::toggle(true);
+
+  bool prevL1State = false;
 
   while (true) {
     // Gives you some extras to make EZ-Template ezier
@@ -325,7 +331,7 @@ void opcontrol() {
 			wing::toggle(true);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			matchLoad::toggle();
 		}
 
@@ -360,6 +366,12 @@ void opcontrol() {
 			lever::toggle();
 			
 		}
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+      lever::setManual(true);
+    } else {
+      lever::setManual(false);
+    }
 		
 
 		prevL1State = master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1);

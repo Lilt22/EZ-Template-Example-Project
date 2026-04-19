@@ -26,11 +26,11 @@ extern pros::adi::DigitalOut trackingDeployPiston;
 //Right Odom Wheel Sensor
 extern pros::Rotation vertSens;
 
-//List of left drive ports
-extern std::vector<std::int8_t> leftDrivePorts;
+// //List of left drive ports
+// extern std::vector<std::int8_t> leftDrivePorts;
 
-//List of right drive ports
-extern std::vector<std::int8_t> rightDrivePorts;
+// //List of right drive ports
+// extern std::vector<std::int8_t> rightDrivePorts;
 
 extern pros::Optical firstSens;
 
@@ -47,3 +47,6 @@ extern pros::Distance localXSens;
 extern pros::Distance localYSens;
 
 extern pros::adi::DigitalOut lowScorePiston;
+
+extern pros::MotorGroup leftMtrs;
+extern pros::MotorGroup rightMtrs;
