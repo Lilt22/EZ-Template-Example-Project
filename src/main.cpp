@@ -110,7 +110,7 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add({{"Solo AWP", soloAWP},{"LeftSplitLONG", leftSplitLONG}, {"LefSpliMIDt", leftSplitMID},
+  ez::as::auton_selector.autons_add({{"Solo AWP", soloAWP},{"LefSpliMID", leftSplitMID},{"LeftSplitLONG", leftSplitLONG}
       
     });
 
@@ -288,6 +288,8 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   trackingDeploy::toggle(true);
+
+  lever::setLimit(337);
 
   bool prevL1State = false;
 

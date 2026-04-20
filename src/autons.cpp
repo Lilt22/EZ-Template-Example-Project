@@ -19,7 +19,7 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(25, 0.0, 150);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(25, 0.0, 180);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(10, 0.0, 0);        // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(12.0, 0.05, 100, 15.0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
@@ -72,128 +72,76 @@ void soloAWP(){
 	// 	pros::delay(100);
 	// 	move(00, 00);
   // pros::delay(200);
-   chassis.pid_odom_set({{45.7_in, -46.5_in}, rev, DRIVE_SPEED},
-                        true); 
+   chassis.pid_odom_set({{46.7_in, -46.5_in}, rev, DRIVE_SPEED},
+      true); 
     chassis.pid_wait();
 	  lever::toggle();
 		matchLoad::toggle();
 	chassis.pid_turn_set(180, TURN_SPEED);
   pros::delay(450);
-		chassis.pid_odom_set({{45.7_in, -68.5_in},fwd, DRIVE_SPEED},
+		chassis.pid_odom_set({{46.7_in, -57_in},fwd, DRIVE_SPEED},
                         false);
-		pros::delay(1350);
-		 chassis.pid_odom_set({{47.2_in, -20_in}, rev, DRIVE_SPEED},
+		pros::delay(1050);
+		 chassis.pid_odom_set({{47.2_in, -27_in}, rev, DRIVE_SPEED},
                         true);
 
-	  pros::delay(400);
+	  pros::delay(500);
     matchLoad::toggle();
     pros::delay(450);
     
 		
 	  
     chassis.pid_odom_set({{48.5_in, -30_in}, rev, 0}, true);
-    pros::delay(50);
+    pros::delay(300);
     lever::score();
-    pros::delay(700);
+    pros::delay(1000);
     lever::stopScoring();
 
+     chassis.pid_odom_set({{48.5_in, -44_in}, fwd, 70});
+     chassis.pid_wait();
+     chassis.pid_turn_set(325, TURN_SPEED);
+     pros::delay(400);
+
 
   
 
-    chassis.pid_odom_set({{{48.5_in, -42_in}, fwd, DRIVE_SPEED}, 
-      {{28_in, -21.5_in}, fwd, 110},
-                      {{-20_in, -25_in}, fwd, 110},
-                      {{-48.6_in, -42_in}, fwd, 110}},
+    chassis.pid_odom_set({ 
+      {{28_in, -23.5_in}, fwd, DRIVE_SPEED},
+                      {{-18_in, -25_in}, fwd, DRIVE_SPEED},
+                       {{-46.5_in, -42_in}, fwd, DRIVE_SPEED}},
                       false);
 
-                      //pros::delay(2750);
-                      //matchLoad::toggle();
-
-  //   chassis.pid_turn_set(315, 127);
-  //   pros::delay(100);
-  //   chassis.pid_odom_set({{28_in, -21.5_in}, fwd, DRIVE_SPEED},
-  //                      true);
-  //                      pros::delay(900);
-  // // chassis.pid_wait();
-	// // 	// robot.driveAt(4000, 4000);
-	// // 	// pros::delay(250);
-	// // 	// robot.driveAt(2000, 2000);
-	// // 	// pros::delay(150);
-	// // 	// matchLoad::toggle();
-	// // 	// pros::delay(200);
-	// // 	// robot.driveAt(2000, 2000);
-	// // 	// matchLoad::toggle();
-  //   chassis.pid_odom_set({{-15_in, -25_in}, fwd, DRIVE_SPEED},
-  //                      true);
-  //                      pros::delay(1500);
+    pros::delay(2500);
+    matchLoad::toggle();
 
 
-  //   chassis.pid_odom_set({{-46.6_in, -42_in}, fwd, DRIVE_SPEED},
-  //                      true);
   chassis.pid_wait();
+  matchLoad::toggle();
   
 		
-		chassis.pid_turn_set(180, TURN_SPEED);
-    intake::reverse();
-    pros::delay(100);
-    intake::on();
-    pros::delay(300);
-   
-     chassis.pid_odom_set({{-48_in, -20_in}, rev, DRIVE_SPEED},
-                       false);
-
-      
-  //   chassis.pid_wait();
-
-	// 	move(-5500, -5500);
-	  pros::delay(800);
-    //matchLoad::toggle();
-		
-	  lever::scoreSlow();
-    matchLoad::toggle();
-    chassis.pid_odom_set({{-48.7_in, -20_in}, rev, 0}, true);
-    pros::delay(700);
-    lever::stopScoringSlow();
-
-    chassis.pid_odom_set({{-48.7_in, -80.5_in},fwd, DRIVE_SPEED},
+	chassis.pid_turn_set(180, TURN_SPEED);
+  chassis.pid_wait();
+ 
+      chassis.pid_odom_set({{-46.5_in, -32_in}, rev, DRIVE_SPEED},
                         false);
-		pros::delay(1400);
-		 chassis.pid_odom_set({{-48.7_in, -20_in}, rev, DRIVE_SPEED},
-                        true);
-      pros::delay(200);
+      lever::setLimit(225);
+      pros::delay(670);
+      lever::score();
+      chassis.pid_odom_set({{-46.5_in, -30_in}, rev, 0},
+                        false);
+      pros::delay(900);
+      lever::stopScoring();
+      lever::setLimit(337);
+      chassis.pid_odom_set({{-46.5_in, -47_in}, fwd, DRIVE_SPEED},
+                        false);
+      chassis.pid_wait();
       lever::toggle();
-      chassis.pid_odom_set({{-13_in, -17.6_in}, rev, DRIVE_SPEED},
+
+      chassis.pid_odom_set({{-13_in, -20_in}, rev, DRIVE_SPEED},
                         false);
-      pros::delay(1450);
+      pros::delay(1100);
       lever::scoreSlow();
 
-
-
-	// 	move(-8000, -8000);
-	// 	pros::delay(500);
-		
-	// 	lever::score();
-	// 	matchLoad::toggle();
-	// 	pros::delay(500);
-		
-	// 	pros::delay(350);
-	// 	lever::stopScoring();
-	// 	move(9000, 9000);
-	// 	pros::delay(300);
-		
-	// 	move(7000, 7000);
-	// 	pros::delay(600);
-	// 	move(0, 0);
-	// 	pros::delay(500);
-	// 	move(-9000, -9000);
-	// 	pros::delay(300);
-	// 	move(0, 0);
-		
-
-
-		
-
-		
 }
 
 void leftSplitMID(){
