@@ -17,7 +17,7 @@ namespace lever{
 
     double targ = downAng;
 
-    double limit = 337;
+    double limit = 334;
 
     double pos;
     

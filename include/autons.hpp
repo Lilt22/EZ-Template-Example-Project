@@ -19,3 +19,4 @@ void measure_offsets();
 void soloAWP();
 void leftSplitMID();
 void leftSplitLONG();
+void rightSplit();

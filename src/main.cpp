@@ -110,7 +110,7 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add({{"Solo AWP", soloAWP},{"LefSpliMID", leftSplitMID},{"LeftSplitLONG", leftSplitLONG}
+  ez::as::auton_selector.autons_add({{"LefSpliMID", leftSplitMID}, {"LeftSplitLONG", leftSplitLONG},{"RightSplit", rightSplit},  {"Solo AWP", soloAWP}
       
     });
 
@@ -292,6 +292,8 @@ void opcontrol() {
   lever::setLimit(337);
 
   bool prevL1State = false;
+
+  matchLoad::toggle(false);
 
   while (true) {
     // Gives you some extras to make EZ-Template ezier

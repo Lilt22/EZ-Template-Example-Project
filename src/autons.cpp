@@ -79,15 +79,15 @@ void soloAWP(){
 		matchLoad::toggle();
 	chassis.pid_turn_set(180, TURN_SPEED);
   pros::delay(450);
-		chassis.pid_odom_set({{46.7_in, -57_in},fwd, DRIVE_SPEED},
+		chassis.pid_odom_set({{47.3_in, -57_in},fwd, DRIVE_SPEED},
                         false);
 		pros::delay(1050);
 		 chassis.pid_odom_set({{47.2_in, -27_in}, rev, DRIVE_SPEED},
                         true);
 
-	  pros::delay(500);
+	  pros::delay(300);
     matchLoad::toggle();
-    pros::delay(450);
+    pros::delay(650);
     
 		
 	  
@@ -106,7 +106,7 @@ void soloAWP(){
   
 
     chassis.pid_odom_set({ 
-      {{28_in, -23.5_in}, fwd, DRIVE_SPEED},
+      {{28_in, -25_in}, fwd, DRIVE_SPEED},
                       {{-18_in, -25_in}, fwd, DRIVE_SPEED},
                        {{-46.5_in, -42_in}, fwd, DRIVE_SPEED}},
                       false);
@@ -137,7 +137,7 @@ void soloAWP(){
       chassis.pid_wait();
       lever::toggle();
 
-      chassis.pid_odom_set({{-13_in, -20_in}, rev, DRIVE_SPEED},
+      chassis.pid_odom_set({{-13_in, -18.5_in}, rev, DRIVE_SPEED},
                         false);
       pros::delay(1100);
       lever::scoreSlow();
@@ -168,7 +168,9 @@ void leftSplitMID(){
     chassis.pid_odom_set({{-46, -30}, rev, DRIVE_SPEED}, true);
     pros::delay(250);
     lever::toggle();
-    chassis.pid_odom_set({{-11, -21}, rev, DRIVE_SPEED}, true);
+    chassis.pid_odom_set({{-10.5, -18.5}, rev, DRIVE_SPEED}, true);
+    chassis.pid_wait();
+    chassis.pid_turn_set(225, DRIVE_SPEED);
     chassis.pid_wait();
     lever::scoreSlow();
     pros::delay(1100);
@@ -177,8 +179,9 @@ void leftSplitMID(){
     chassis.pid_wait();
     lever::toggle();
     lever::stopScoringSlow();
-     chassis.pid_odom_set({{-9, -19}, rev, DRIVE_SPEED}, true);
-    chassis.pid_wait();
+    pros::delay(300);
+     chassis.pid_odom_set({{-8, -18}, rev, DRIVE_SPEED}, true);
+    //chassis.pid_wait();
 }
 
 void leftSplitLONG(){
@@ -205,7 +208,9 @@ void leftSplitLONG(){
     chassis.pid_odom_set({{-46, -30}, rev, DRIVE_SPEED}, true);
     pros::delay(250);
     lever::toggle();
-    chassis.pid_odom_set({{-12, -22}, rev, DRIVE_SPEED}, true);
+    chassis.pid_odom_set({{-12, -18.5}, rev, DRIVE_SPEED}, true);
+    chassis.pid_wait();
+    chassis.pid_turn_set(225, DRIVE_SPEED);
     chassis.pid_wait();
     lever::scoreSlow();
     pros::delay(1100);
@@ -223,6 +228,47 @@ void leftSplitLONG(){
     pros::delay(600);
     chassis.pid_odom_set({{-35, -15.3}, rev, DRIVE_SPEED}, true);
     
+    chassis.pid_wait();
+
+}
+
+void rightSplit(){
+    chassis.odom_xyt_set(17_in, -53_in, 0_deg); 
+		intake::on();
+		wing::toggle(true);
+    chassis.pid_odom_set({{{24_in, -22_in}, fwd, DRIVE_SPEED}, 
+      {{48_in, -47_in}, fwd, 110}}, true);
+
+    pros::delay(800);
+    matchLoad::toggle();
+    chassis.pid_wait();
+    chassis.pid_turn_set(180, TURN_SPEED);
+    lever::toggle();
+    pros::delay(400);
+    chassis.pid_odom_set({{48, -20}, rev, DRIVE_SPEED}, false);
+    pros::delay(500);
+    chassis.pid_odom_set({{48_in, -20_in}, rev, 0}, true);
+    lever::score();
+    pros::delay(700);
+    lever::stopScoring();
+    chassis.pid_odom_set({{47_in, -64_in}, fwd, DRIVE_SPEED}, true);
+    pros::delay(1700);
+    chassis.pid_odom_set({{47, -50}, rev, DRIVE_SPEED}, true);
+    pros::delay(250);
+    chassis.pid_wait();
+    chassis.pid_turn_set(315, TURN_SPEED);
+      chassis.pid_wait();
+      matchLoad::toggle();
+    chassis.pid_odom_set({{15.5, -18.5}, fwd, DRIVE_SPEED}, true);
+    chassis.pid_wait();
+    chassis.pid_turn_set(315, TURN_SPEED);
+      chassis.pid_wait();
+
+      lowScore::toggle(true);
+    intake::reverse();
+    chassis.pid_odom_set({{17.5, -20.5}, rev, DRIVE_SPEED}, true);
+    chassis.pid_wait();
+    chassis.pid_odom_set({{16.5, -19.5}, fwd, DRIVE_SPEED}, true);
     chassis.pid_wait();
 
 }
