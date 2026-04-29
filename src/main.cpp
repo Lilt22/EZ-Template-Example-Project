@@ -110,7 +110,7 @@ void initialize() {
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
-  ez::as::auton_selector.autons_add({{"LefSpliMID", leftSplitMID}, {"LeftSplitLONG", leftSplitLONG},{"RightSplit", rightSplit},  {"Solo AWP", soloAWP}
+  ez::as::auton_selector.autons_add({{"LefSpliMID", leftSplitMID},{"RightSplit", rightSplit},{"Right Rush: ", rightRush}, {"LeftSplitLONG", leftSplitLONG},  {"Solo AWP", soloAWP}
       
     });
 

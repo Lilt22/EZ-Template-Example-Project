@@ -20,3 +20,4 @@ void soloAWP();
 void leftSplitMID();
 void leftSplitLONG();
 void rightSplit();
+void rightRush();
